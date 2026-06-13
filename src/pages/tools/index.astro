@@ -1,0 +1,109 @@
+---
+import Layout from "../../components/Layout.astro";
+import ToolDirectory from "../../components/ToolDirectory";
+import GuideCard from "../../components/GuideCard.astro";
+import FAQ from "../../components/FAQ.astro";
+import AdSlot from "../../components/AdSlot.astro";
+import { categories, directoryToolSummaries, plannedToolSummaries } from "../../data/tools";
+import { guides } from "../../data/guides";
+
+const trustBadges = ["로그인 없음", "서버 업로드 없음", "브라우저 처리", "무료 사용"];
+const situationGroups = [
+  { title: "문서 제출 전", text: "PDF 순서를 정리하고 제출 파일을 ZIP으로 묶습니다.", tools: ["PDF 정리", "서류 묶기"] },
+  { title: "공유 전 개인정보 정리", text: "텍스트와 스크린샷에서 연락처, 주소, 계정 정보를 가립니다.", tools: ["개인정보 가리기", "스크린샷 가리기"] },
+  { title: "중고거래 준비", text: "판매글을 만들고 상품 상태와 거래 조건을 빠뜨리지 않게 정리합니다.", tools: ["중고거래 글 작성"] },
+  { title: "안내 링크 공유", text: "URL, Wi-Fi, 안내 문구를 QR 이미지로 만들어 저장합니다.", tools: ["QR 만들기"] }
+];
+const toolFaqs = [
+  { question: "파일은 서버로 전송되나요?", answer: "PDF와 이미지 도구는 가능한 한 서버로 업로드하지 않고 브라우저에서 처리합니다. 결과 파일은 사용자가 직접 저장합니다." },
+  { question: "로그인 없이 사용할 수 있나요?", answer: "네. 현재 제공하는 도구는 회원가입이나 로그인 없이 사용할 수 있습니다." },
+  { question: "무료 사용인가요?", answer: "기본 도구는 무료로 제공합니다. 운영 비용은 광고 등으로 충당할 수 있도록 준비합니다." },
+  { question: "모바일에서도 쓸 수 있나요?", answer: "검색, QR, 텍스트 도구는 모바일에서도 사용할 수 있게 구성했습니다. 큰 파일 작업은 기기 성능에 따라 느릴 수 있습니다." },
+  { question: "준비 중인 도구는 어디에서 보나요?", answer: "실제로 사용할 수 있는 도구와 섞이지 않도록 도구 목록 하단의 접힘 영역에만 표시합니다." },
+  { question: "광고는 도구 사용을 방해하지 않나요?", answer: "광고 영역은 검색창, 도구 버튼, 파일 선택, 다운로드, 결과 영역 근처에 두지 않는 방향으로 배치합니다." }
+];
+---
+<Layout title="모든 도구" description="PDF 제출 전 파일을 정리하고, 스크린샷의 개인정보를 가리고, 중고거래 글을 빠르게 완성하세요." path="/tools">
+  <section class="hero-surface text-white">
+    <div class="container-page py-5 md:py-7">
+      <div class="grid gap-4 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
+        <div>
+          <p class="text-sm font-semibold text-amber-200">도구 찾기</p>
+          <h1 class="mt-1 text-3xl font-semibold leading-tight md:text-4xl">모든 도구</h1>
+          <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-100">PDF 제출 전 파일을 정리하고, 스크린샷의 개인정보를 가리고, 중고거래 글을 빠르게 완성하세요.</p>
+        </div>
+        <div class="rounded-2xl border border-white/15 bg-white/10 p-3 backdrop-blur md:p-4">
+          <p class="text-sm font-semibold text-amber-100">처리 원칙</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {trustBadges.map((badge) => <span class="rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-semibold text-white">✓ {badge}</span>)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-page -mt-4 pb-8 md:-mt-5 md:pb-9">
+    <ToolDirectory client:load categories={categories} availableTools={directoryToolSummaries} plannedTools={plannedToolSummaries} />
+  </section>
+
+  <section class="soft-band py-12">
+    <div class="container-page">
+      <div>
+        <p class="text-sm font-semibold text-brand">상황별 추천 도구</p>
+        <h2 class="mt-1 text-2xl font-semibold">해야 할 일 기준으로 찾기</h2>
+      </div>
+      <div class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {situationGroups.map((item) => (
+          <article class="rounded-2xl border border-slate-200 bg-white p-5">
+            <h3 class="text-base font-semibold">{item.title}</h3>
+            <p class="mt-2 text-sm leading-6 text-secondary">{item.text}</p>
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              {item.tools.map((tool) => <span class="rounded-full border border-border bg-slate-50 px-2.5 py-1 text-xs text-muted">{tool}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container-page py-10">
+    <AdSlot class="my-0" />
+  </section>
+
+  <section class="soft-band py-12">
+    <div class="container-page">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <p class="text-sm font-semibold text-brand">많이 찾는 가이드</p>
+          <h2 class="mt-1 text-2xl font-semibold">도구를 쓰기 전 확인할 글</h2>
+          <p class="mt-2 text-sm leading-6 text-secondary">파일 순서, 개인정보 공유, 스크린샷 정리처럼 제출 전 확인해야 할 내용을 모았습니다.</p>
+        </div>
+        <a href="/guides" class="btn-secondary shrink-0 no-underline">전체 보기</a>
+      </div>
+      <div class="tool-grid mt-5">{guides.slice(0, 6).map((guide) => <GuideCard guide={guide} />)}</div>
+    </div>
+  </section>
+
+  <section class="container-page py-12">
+    <div class="grid gap-5 lg:grid-cols-2">
+      <article class="rounded-2xl border border-slate-200 bg-white p-6">
+        <p class="text-sm font-semibold text-brand">사이트 안내</p>
+        <h2 class="mt-1 text-2xl font-semibold">쓸모상자는 어떤 사이트인가요?</h2>
+        <p class="mt-4 text-sm leading-7 text-secondary">쓸모상자는 가입이나 설치 없이 일상 작업을 빠르게 처리하기 위한 한국형 무료 생활 도구 포털입니다. PDF 제출, 개인정보 가림, QR 생성, 중고거래 글 작성처럼 자주 필요하지만 따로 앱을 찾기 번거로운 일을 한곳에 모읍니다. 실제로 사용할 수 있는 도구를 먼저 보여주고, 준비 중인 도구는 별도로 구분해 사용자가 헷갈리지 않게 합니다.</p>
+      </article>
+      <article class="rounded-2xl border border-slate-200 bg-white p-6">
+        <p class="text-sm font-semibold text-brand">파일 처리</p>
+        <h2 class="mt-1 text-2xl font-semibold">파일은 서버로 전송되나요?</h2>
+        <p class="mt-4 text-sm leading-7 text-secondary">PDF와 이미지 도구는 가능한 한 서버로 업로드하지 않고 사용자의 브라우저에서 처리합니다. 선택한 파일은 현재 화면에서 읽고, 결과 파일은 사용자가 직접 다운로드합니다. 일부 텍스트 도구는 임시 저장을 위해 브라우저 저장소를 사용할 수 있으며, 사용자가 직접 끄거나 삭제할 수 있습니다.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container-page pb-12">
+    <FAQ items={toolFaqs} />
+  </section>
+
+  <section class="container-page pb-12">
+    <AdSlot class="my-0" />
+  </section>
+</Layout>

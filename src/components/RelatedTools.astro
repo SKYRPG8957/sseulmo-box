@@ -1,0 +1,9 @@
+---
+import ToolCard from "./ToolCard.astro";
+import { availableTools } from "../data/tools";
+interface Props { slugs: string[]; }
+const related = Astro.props.slugs
+  .map((slug) => availableTools.find((tool) => tool.slug === slug))
+  .filter((tool): tool is (typeof availableTools)[number] => Boolean(tool));
+---
+{related.length ? <section class="mt-12"><h2 class="text-xl font-semibold">관련 도구</h2><div class="tool-grid mt-5">{related.map((tool) => <ToolCard tool={tool} />)}</div></section> : null}

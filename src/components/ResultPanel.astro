@@ -1,0 +1,8 @@
+---
+interface Props { title?: string; }
+const { title = "결과" } = Astro.props;
+---
+<section class="panel" aria-live="polite">
+  <h2 class="text-lg font-bold">{title}</h2>
+  <slot />
+</section>

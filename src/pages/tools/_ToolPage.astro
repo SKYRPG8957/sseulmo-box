@@ -1,0 +1,78 @@
+---
+import Layout from "../../components/Layout.astro";
+import PrivacyNotice from "../../components/PrivacyNotice.astro";
+import ToolRenderer from "../../components/ToolRenderer.astro";
+import FAQ from "../../components/FAQ.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import AdSlot from "../../components/AdSlot.astro";
+import { getAvailableTool } from "../../data/tools";
+import { getToolFaqItems } from "../../data/toolFaqs";
+
+interface Props { slug: string; }
+const tool = getAvailableTool(Astro.props.slug);
+if (!tool) throw new Error("Unknown tool");
+
+const examples: Record<string, string[]> = {
+  "pdf-kit": ["지원 서류 PDF를 한 파일로 묶을 때", "스캔한 PDF 순서를 다시 정리할 때", "메일로 보낼 제출 파일을 줄일 때"],
+  "privacy-masker": ["커뮤니티 글을 공유하기 전 연락처를 가릴 때", "중고거래 대화 내용을 공유하기 전", "회사 문서 예시에서 이메일을 숨길 때"],
+  "screenshot-redactor": ["카카오톡 캡처에서 이름을 가릴 때", "주문 내역에서 주소를 숨길 때", "오류 화면에서 계정 정보를 가릴 때"],
+  "document-packager": ["입사지원 파일을 한 ZIP으로 묶을 때", "지원사업 제출 서류를 확인할 때", "파일명을 제출자 기준으로 맞출 때"],
+  "qr-studio": ["가게 Wi-Fi 안내를 QR로 만들 때", "URL을 종이에 붙일 때", "행사 안내 문구를 빠르게 공유할 때"],
+  "used-market-writer": ["상품 상태를 빠뜨리지 않고 적을 때", "하자 고지 문구를 넣을 때", "거래 조건을 한 번에 정리할 때"]
+};
+
+const notes: Record<string, string[]> = {
+  "pdf-kit": ["암호가 걸린 PDF는 처리하지 못할 수 있습니다.", "큰 파일은 기기 성능에 따라 시간이 걸립니다.", "저장 전 파일 순서를 다시 확인하세요."],
+  "privacy-masker": ["패턴 기준으로 찾기 때문에 모든 개인정보를 잡지는 못합니다.", "결과를 복사하기 전 원본과 비교하세요.", "주민등록번호나 카드번호 검증 기능은 아닙니다."],
+  "screenshot-redactor": ["가릴 영역을 적용한 뒤 다운로드 파일을 다시 확인하세요.", "원본 이미지는 사용자의 기기에 남아 있을 수 있습니다.", "작은 글자는 블러보다 박스 가림이 더 확실할 수 있습니다."],
+  "document-packager": ["제출처의 필수 서류 안내를 먼저 확인하세요.", "파일명 추천은 참고용입니다.", "ZIP 다운로드 전 누락 항목을 확인하세요."],
+  "qr-studio": ["QR은 실제 기기로 스캔해 확인하세요.", "Wi-Fi QR에는 입력한 네트워크 정보가 들어갑니다.", "너무 연한 색은 인식이 어려울 수 있습니다."],
+  "used-market-writer": ["하자가 있으면 본문에 직접 적어야 합니다.", "가격과 거래 장소는 실제 조건에 맞게 수정하세요.", "작성된 글은 게시 전 다시 읽어보세요."]
+};
+
+const fallbackExamples = ["필요한 값을 입력하고 결과를 확인할 때", "복사하거나 저장하기 전 내용을 다시 볼 때", "반복되는 작업을 빠르게 정리할 때"];
+const fallbackNotes = ["결과는 참고용입니다.", "공유하거나 제출하기 전 직접 확인하세요.", "민감한 정보는 한 번 더 점검하세요."];
+const faqItems = getToolFaqItems(tool, 5);
+
+const breadcrumbJsonLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "홈", item: "/" }, { "@type": "ListItem", position: 2, name: "도구", item: "/tools" }, { "@type": "ListItem", position: 3, name: tool.name, item: tool.path }] };
+const faqJsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
+const jsonLd = [breadcrumbJsonLd, faqJsonLd];
+---
+<Layout title={tool.name} description={tool.description} path={tool.path} jsonLd={jsonLd}>
+  <section class="container-page max-w-[1040px] py-7 md:py-9">
+    <nav class="text-sm text-muted" aria-label="Breadcrumb">
+      <a href="/">홈</a>
+      <span class="mx-2">›</span>
+      <a href="/tools">도구</a>
+      <span class="mx-2">›</span>
+      <span>{tool.name}</span>
+    </nav>
+    <div class="mt-5">
+      <p class="text-sm font-semibold text-brand">{tool.category}</p>
+      <h1 class="mt-1 text-3xl font-semibold leading-tight md:text-[34px]">{tool.name}</h1>
+      <p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{tool.description}</p>
+      <div class="mt-4"><PrivacyNotice /></div>
+    </div>
+
+    <div class="mt-6"><ToolRenderer slug={tool.slug} /></div>
+
+    <section class="mt-10 grid gap-4 md:grid-cols-2">
+      <div class="panel">
+        <h2 class="text-xl font-semibold">사용 예시</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+          {(examples[tool.slug] ?? fallbackExamples).map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="panel">
+        <h2 class="text-xl font-semibold">알아둘 점</h2>
+        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+          {(notes[tool.slug] ?? fallbackNotes).map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <AdSlot class="my-12" />
+    <FAQ items={faqItems} />
+    <RelatedTools slugs={tool.relatedTools.slice(0, 3)} />
+  </section>
+</Layout>

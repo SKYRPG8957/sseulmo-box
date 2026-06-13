@@ -1,0 +1,30 @@
+---
+import AdSenseHead from "./AdSenseHead.astro";
+import { normalizeSiteUrl } from "../lib/siteUrl";
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  jsonLd?: unknown | unknown[];
+  noindex?: boolean;
+}
+const { title, description, path = "/", image = "/og-default.png", jsonLd, noindex = false } = Astro.props;
+const siteUrl = normalizeSiteUrl(import.meta.env.PUBLIC_SITE_URL || process.env.PUBLIC_SITE_URL);
+const canonical = siteUrl ? new URL(path, siteUrl).toString() : "";
+const imageUrl = siteUrl ? new URL(image, siteUrl).toString() : "";
+const fullTitle = title.includes("쓸모상자") ? title : `${title} | 쓸모상자`;
+const scripts = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex,follow" />}
+{canonical && <link rel="canonical" href={canonical} />}
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:type" content="website" />
+{imageUrl && <meta property="og:image" content={imageUrl} />}
+<meta name="twitter:card" content="summary_large_image" />
+{scripts.map((script) => <script is:inline type="application/ld+json" set:html={JSON.stringify(script)} />)}
+<AdSenseHead />

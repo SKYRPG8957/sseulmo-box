@@ -1,0 +1,22 @@
+---
+import SEO from "./SEO.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import "../styles/global.css";
+interface Props { title: string; description: string; path?: string; jsonLd?: unknown | unknown[]; noindex?: boolean; }
+const { title, description, path, jsonLd, noindex } = Astro.props;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO title={title} description={description} path={path} jsonLd={jsonLd} noindex={noindex} />
+  </head>
+  <body>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink focus:ring-2 focus:ring-brand/30" href="#main-content">본문으로 이동</a>
+    <Header />
+    <main id="main-content" tabindex="-1"><slot /></main>
+    <Footer />
+  </body>
+</html>

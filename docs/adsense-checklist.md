@@ -1,0 +1,22 @@
+# AdSense 신청 전 체크리스트
+
+- [ ] 사이트가 Cloudflare Pages 또는 실제 도메인에서 라이브 상태인지 확인
+- [ ] /about 페이지 존재 여부 확인
+- [ ] /contact 페이지 존재 여부 확인
+- [ ] /privacy 페이지 존재 여부 확인
+- [ ] /terms 페이지 존재 여부 확인
+- [ ] /sitemap.xml 접근 가능 여부 확인
+- [ ] /robots.txt 접근 가능 여부 확인
+- [ ] `PUBLIC_ADSENSE_CLIENT` 설정 후 /ads.txt에 실제 publisher ID가 나오는지 확인
+- [ ] ready/beta 도구 페이지에 충분한 본문 콘텐츠가 있는지 수동 확인
+- [ ] ready/beta 도구 페이지에 FAQ가 있는지 확인
+- [ ] 광고 자리 문구가 버튼, 다운로드, 결과 영역과 혼동되지 않는지 모바일/데스크톱에서 확인
+- [ ] AdSense publisher ID는 `PUBLIC_ADSENSE_CLIENT=ca-pub-숫자` 형식으로 설정하기
+- [ ] 광고 단위 slot은 `PUBLIC_ADSENSE_SLOT=숫자` 형식으로 설정하기
+- [ ] 문의 이메일은 `PUBLIC_CONTACT_EMAIL=이메일주소` 형식으로 설정하기
+- [ ] canonical, sitemap, robots에 쓸 실제 주소는 `PUBLIC_SITE_URL=https://도메인` 형식으로 설정하기
+- [ ] Cloudflare Pages 환경변수는 Workers & Pages > 프로젝트 > Settings > Environment variables에서 Production/Preview에 각각 설정
+- [ ] AdSense Auto ads 또는 ad unit 코드는 승인 상태와 정책에 맞춰 계정에서 복사한 값을 사용
+- [ ] 심사 신청 전 모든 주요 페이지가 200 응답인지 확인
+- [ ] 심사 신청 전 도구의 파일 선택 영역 옆에 광고가 붙지 않았는지 확인
+- [ ] 심사 신청 전 중복 문장, 빈 페이지, 깨진 링크, 문의 이메일을 실제 운영 정보로 확인

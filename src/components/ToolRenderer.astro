@@ -1,0 +1,16 @@
+---
+import PrivacyMasker from "./tools/PrivacyMasker.tsx";
+import ScreenshotRedactor from "./tools/ScreenshotRedactor.tsx";
+import PdfKit from "./tools/PdfKit.tsx";
+import DocumentPackager from "./tools/DocumentPackager.tsx";
+import QrStudio from "./tools/QrStudio.tsx";
+import UsedMarketWriter from "./tools/UsedMarketWriter.tsx";
+interface Props { slug: string; }
+const { slug } = Astro.props;
+---
+{slug === "privacy-masker" && <PrivacyMasker client:only="react" />}
+{slug === "screenshot-redactor" && <ScreenshotRedactor client:only="react" />}
+{slug === "pdf-kit" && <PdfKit client:only="react" />}
+{slug === "document-packager" && <DocumentPackager client:only="react" />}
+{slug === "qr-studio" && <QrStudio client:only="react" />}
+{slug === "used-market-writer" && <UsedMarketWriter client:only="react" />}

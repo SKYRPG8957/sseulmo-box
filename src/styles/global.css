@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+body { @apply bg-paper text-ink antialiased; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.6; }
+a { @apply text-brand underline-offset-4 hover:underline; }
+.container-page { @apply mx-auto w-full max-w-[1120px] px-5 md:px-6; }
+.panel { @apply rounded-xl border border-border bg-white p-5 shadow-none; }
+.field { @apply mt-1 min-h-12 w-full rounded-xl border border-border-strong bg-white px-4 py-3 text-sm outline-none focus:border-brand focus:ring-4 focus:ring-brand/15; }
+.btn { @apply inline-flex min-h-12 items-center justify-center rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-hover focus:outline-none focus:ring-4 focus:ring-brand/25 disabled:cursor-not-allowed disabled:opacity-50; }
+.btn-secondary { @apply inline-flex min-h-12 items-center justify-center rounded-xl border border-border-strong bg-white px-5 py-3 text-sm font-semibold text-ink hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-brand/15 disabled:cursor-not-allowed disabled:opacity-50; }
+.btn-ghost { @apply inline-flex min-h-11 items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold text-ink hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand/20; }
+.label { @apply block text-sm font-semibold text-ink; }
+.muted { @apply text-sm text-muted; }
+.prose-box { @apply max-w-none text-base leading-7 text-secondary; }
+.prose-box h2 { @apply mt-9 text-2xl font-semibold text-ink; }
+.prose-box h3 { @apply mt-6 text-lg font-semibold text-ink; }
+.prose-box p { @apply mt-4; }
+.prose-box ul { @apply mt-4 list-disc pl-6; }
+.tool-grid { @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3; }
+.section-kicker { @apply text-sm font-semibold text-brand; }
+.soft-band { background: linear-gradient(180deg, #F8FAFC 0%, #FAFAF8 100%); }
+.hero-surface {
+  background:
+    linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(15, 118, 110, 0.9)),
+    radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.22), transparent 34%);
+}
