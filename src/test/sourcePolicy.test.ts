@@ -72,7 +72,7 @@ describe("source policy", () => {
     expect(documentSource).toContain("aria-label={`${item} 항목 삭제`}");
   });
 
-  it("keeps ad placeholders plain and scripts gated by environment", async () => {
+  it("keeps ad placeholders quiet and scripts gated by environment", async () => {
     const slotSource = await readFile("src/components/AdSlot.astro", "utf8");
     const headSource = await readFile("src/components/AdSenseHead.astro", "utf8");
     const adsTxtSource = await readFile("src/pages/ads.txt.ts", "utf8");
@@ -83,7 +83,9 @@ describe("source policy", () => {
     expect(slotSource).not.toContain("심사 전 placeholder");
     expect(slotSource).toContain("normalizeAdSenseClient");
     expect(slotSource).toContain("normalizeAdSenseSlot");
-    expect(slotSource).toContain("client && slot");
+    expect(slotSource).toContain("showConfiguredSlot = client && slot");
+    expect(slotSource).toContain("showSetupPlaceholder = !client");
+    expect(slotSource).toContain(": null");
     expect(slotSource).toContain("data-ad-slot={slot}");
     expect(slotSource).not.toContain('data-ad-slot="0000000000"');
     expect(headSource).toContain("normalizeAdSenseClient");
